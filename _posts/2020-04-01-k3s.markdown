@@ -1,0 +1,23 @@
+---
+layout: post
+title: "k3s 삽질기"
+date: 2020-04-01 20:49:55 +0900
+---
+
+## k3s 삽질기
+
+놀고있는 arm머신에 k3s 올려보면서 했던 삽질들.
+
+1. 설치는 AUR에 [패키지](https://aur.archlinux.org/packages/k3s-bin) 가 있길래 `yay -S k3s-bin` 으로 설치.
+1. `systemctl start k3s` 하고 `journalctl -u k3s.service -f` 로그 보는데 에러가 계속 발생하는데...
+1. 6443 포트 오픈
+
+   iptables에서 사용하는 포트 빼고 all drop으로 해 뒀더니 6443 포트 접근 에러로 기본 서비스가 전부 안 올라오고 있었다. iptables로 6443 open하는것으로 해결. sysctl에 `net.bridge.bridge-nf-call-iptables` 설정하면 된다는데 해 보지는 않음. 어차피 외부 컨트롤을 위해 6443 열어야 하기 때문에..
+
+1. 443 포트 점유
+
+   이미 nginx가 돌고 있는데도 기본으로 실행되는 traefik ingress가 443 포트를 먹어버려서 nginx로 트래픽이 가지 않는다... 찾아보니까 https://github.com/rancher/k3s/issues/1086 이슈가 있는데 하드코딩돼있어서 별도로 바꿔줘야 한다고 한다. `sudo k3s kubectl edit service --namespace=kube-system` 으로 service 설정을 바꿔서 해결.
+
+1. cpu 점유
+
+   idle상태인데 cpu를 1-20%쯤 계속 먹고있다. 이건 어쩔수 없는듯. 포기. 문제 없겠지...
