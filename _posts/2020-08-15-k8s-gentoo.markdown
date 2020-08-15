@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Gentoo k8s 세팅해보기"
+date: 2020-08-15 13:25:00 +0900
+---
+
+Gentoo에 k8s 세팅해보면서 삽질한것들
+
+1. `emerge kubernetes`만 하고 `kubeadm init` 하니까 진행이 안 된다.
+1. 찾아보니 `kubeadm init` 에서 `kubelet` rc 설정을 안 만져줘서 `/etc/conf.d/kubelet` 에 `--kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml` 추가
+1. 그리고 이제 `flannel` 을 올리니까 안 올라온다
+1. 로그를 보니 `/opt/cni/bin` 을 찾고 있어서 `emerge cni-plugins` 실행
+1. 그래도 안 돼서 `kube-proxy` 로그를 보니까 `Couldn't load target 'REJECT':No such file or directory` 이런 게... 커널에 `REJECT` 옵션 추가해서 재부팅
+1. 그래도 안 돼서 찾아보니까 `kubeadm init`에 `--pod-network-cidr=10.244.0.0/16` 옵션을 빼먹음
+1. 재부팅할때 rc 의존성 문제가 있어서 `/etc/init.d/kubelet` 에 `depend` 추가
+1. 성공
