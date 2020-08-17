@@ -1,0 +1,17 @@
+---
+layout: post
+title: "armv7 머신에서 k8s 쓸때 에러"
+date: 2020-08-17 13:16:00 +0900
+---
+
+armv7 머신 ([ODROID-XU4](https://www.hardkernel.com/shop/odroid-xu4-special-price/)) 에 k8s 노드를 올릴 때 `failed to set supported cgroup subsystems for cgroup [kubepods burstable]: Failed to find subsystem mount for required subsystem: pids` 이런 에러가 발생한다.
+
+k8s issue [#79046](https://github.com/kubernetes/kubernetes/issues/79046) 에도 있는데, pids를 쓰는 피쳐를 끄면 된다. k8s 설정파일 (`/var/lib/kubelet/config.yaml`)에 아래처럼 추가하자.
+
+```
+featureGates:
+  SupportNodePidsLimit: false
+  SupportPodPidsLimit: false
+```
+
+커널컴파일을 해서 `CONFIG_CGROUP_PIDS` 설정을 켜도 되지만 이건 귀찮으므로...
