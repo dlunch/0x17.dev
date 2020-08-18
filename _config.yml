@@ -28,7 +28,7 @@ twitter_username: gyultaste
 github_username: dlunch
 google_analytics: UA-7175658-5
 disqus:
-  shortname: 0x17
+  shortname: '0x17'
 
 # Build settings
 theme: minima
