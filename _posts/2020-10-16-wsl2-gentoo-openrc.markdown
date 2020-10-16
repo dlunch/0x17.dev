@@ -20,9 +20,12 @@ then
 fi
 ```
 
-그리고 이걸 매번 실행시켜줘야 하는데, 그냥 .bashrc에 등록했다
+그리고 이걸 매번 실행시켜줘야 하는데, 그냥 .bashrc에 등록했다.
+
 `[ ! -d "/run/openrc" ] && sudo /sbin/run_openrc.sh`
-sudoers에도 한 줄 추가
+
+sudoers에도 한 줄 추가.
+
 `%wheel ALL=(ALL) NOPASSWD: /sbin/run_openrc.sh`
 
 이러면 wsl 창을 켤 때 openrc가 실행돼있지 않으면 새로 실행하게 된다. 일부 부트 서비스들은 켜지는데 오래걸리기만 하고 의미가 없으니 `rc-update` 로 안 켜지게 하면 된다.
