@@ -11,7 +11,7 @@ The gdrv2 service failed to start due to the following error:
 A certificate was explicitly revoked by its issuer.
 ```
 
-그래서 [OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB) 을 써봤는데, 이녀석은 재부팅하면 설정값이 날아간다. 그래서.. 좀 찾아봤더니 [https://www.bitservices.io/blog/gigabyte-rgb-hidden-bios-settings](https://www.bitservices.io/blog/gigabyte-rgb-hidden-bios-settings) 이 글에서 바이오스 설정값을 직접 건드려서 색을 바꾸고 있길래 따라해봤다.
+그래서 [OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB) 을 써봤는데, 이녀석은 재부팅하면 설정값이 날아간다. 그래서.. 좀 찾아봤더니 [https://www.bitservices.io/blog/gigabyte-rgb-hidden-bios-settings/](https://www.bitservices.io/blog/gigabyte-rgb-hidden-bios-settings/) 이 글에서 바이오스 설정값을 직접 건드려서 색을 바꾸고 있길래 따라해봤다.
 
 저기 있는대로 grub-mod-setup_var을 받고, Secure Boot가 켜져있으므로 [shim](https://github.com/rhboot/shim) 을 사용해서 부팅을 해봤다.. 여기까지는 잘 됐는데 저 글에서 테스트한 보드는 X570 PRO고, 내건 X570 Elite인데다가, 바이오스 버전도 달라서 (F30이 얼마전에 나왔음) 글에 있는 `0x2CB` 오프셋에 다른 값이 들어있었다.
 
