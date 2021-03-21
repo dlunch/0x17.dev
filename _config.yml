@@ -26,9 +26,10 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://0x17.dev" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: hcnuld
 github_username: dlunch
+linkedin_username: dlunch
 google_analytics: UA-7175658-5
 disqus:
-  shortname: '0x17'
+  shortname: "0x17"
 
 # Build settings
 theme: minima
