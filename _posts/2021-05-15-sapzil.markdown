@@ -1,0 +1,9 @@
+---
+layout: post
+title: "오늘의 삽질기"
+date: 2021-05-15 14:19:00 +0900
+---
+
+사용하던 cri-o를 업데이트하고 재시작했더니 `cpu.weight` 를 못 찾는다던 에러가 계속 났다. 좀 찾아보니까 [https://github.com/opencontainers/runc/blob/master/libcontainer/cgroups/fs2/fs2.go#L167](https://github.com/opencontainers/runc/blob/master/libcontainer/cgroups/fs2/fs2.go#L167) 에서 세팅을 하는데, 내 서버 커널이 4.14라서 계속 에러가 나고 있던 것.
+
+이 부분이 [cgroups v2](https://github.com/opencontainers/runc/blob/master/docs/cgroup-v2.md) 기능이여서 [ArchWiki](https://wiki.archlinux.org/title/cgroups#Enable_cgroup_v1) 를 참고하여 cgroups v2를 끄니까 잘 된다.
