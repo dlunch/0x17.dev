@@ -1,0 +1,27 @@
+---
+layout: post
+title: "bcache"
+date: 2022-08-18 16:27:00 +0900
+---
+
+남는 ssd가 있어서 홈서버에 ssd cache로 불여보기로 했다. 찾아보니 bcache, lvm-cache 같은게 있는데, archwiki에 [문서](https://wiki.archlinux.org/title/bcache) 가 있는 bcache로 결정.
+
+근데 문서를 보니 기존 데이터를 날려야 할 것 처럼 써져있다. 좀 파보니 실제 날려도 되지 않아도 되어서 간단히 남겨본다.
+
+`fdisk -l` 을 해보면
+
+```
+Device            Start       End   Sectors   Size Type
+/dev/sdc1          2048   ...
+```
+
+이런 식으로 나오는데, 앞에 비어있는 2048 섹터에 bcache superblock을 넣고, data offset을 2048로 설정하면 된다. bcache superblock의 크기가 그것보다 작아서 가능.
+
+1. 백업
+   `dd if=/dev/sdc of=backup bs=512 count=2048`
+1. 기존 partition table 삭제
+   `dd if=/dev/zero of=/dev/sdc bs=512 count=2048`
+1. bcache superblock 생성
+   `sudo make-bcache -B --data-offset 2048 /dev/sdc`
+
+으로 기존 데이터를 날리지 않고 bcache로 변환 성공.
